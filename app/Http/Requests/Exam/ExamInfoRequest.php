@@ -39,6 +39,7 @@ class ExamInfoRequest extends FormRequest
                     $query->where('root_id', rootId());
                 }),
             ],
+            'total_marks' => 'required|numeric',
             'topic' => 'nullable|string|max:65530',
             'exam_date' => 'required|date_format:Y-m-d',
             'status' => 'sometimes|integer|in:0,1',

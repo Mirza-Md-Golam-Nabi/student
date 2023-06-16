@@ -13,7 +13,7 @@ class ExamInfo extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'root_id', 'name', 'subject_id', 'class_id', 'topic', 'exam_date', 'status',
+        'root_id', 'name', 'subject_id', 'class_id', 'total_marks', 'topic', 'exam_date', 'status',
     ];
 
     public function className(): BelongsTo

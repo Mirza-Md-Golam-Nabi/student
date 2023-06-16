@@ -17,6 +17,10 @@
             <td>{{ $examinfo->subject->name }}</td>
         </tr>
         <tr>
+            <td>Total Marks</td>
+            <td>{{ $examinfo->total_marks }}</td>
+        </tr>
+        <tr>
             <td>Exam Date</td>
             <td>{{ Carbon\Carbon::parse($examinfo->exam_date)->format('d M y') }}</td>
         </tr>

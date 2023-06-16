@@ -56,6 +56,14 @@
             @enderror
         </div>
         <div class="form-group">
+            <label for="total_marks">Total Marks <small class="requiredClass">(required)</small></label>
+            <input type="input" name="total_marks" value="{{ old('total_marks') }}"
+                class="form-control @error('total_marks') is-invalid @enderror" id="total_marks" autocomplete="off" required>
+            @error('total_marks')
+                <span style="color:red;">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="form-group">
             <label for="exam_date">Exam Date <small class="requiredClass">(required)</small></label>
             <input type="date" name="exam_date" value="{{ old('exam_date') }}"
                 class="form-control @error('exam_date') is-invalid @enderror" id="exam_date" autocomplete="off" required>

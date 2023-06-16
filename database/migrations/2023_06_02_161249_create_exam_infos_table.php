@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects');
             $table->unsignedBigInteger('class_id');
             $table->foreign('class_id')->references('id')->on('class_names');
+            $table->float('total_marks');
             $table->text('topic')->nullable();
             $table->date('exam_date');
             $table->string('status', 1)->default(1);
