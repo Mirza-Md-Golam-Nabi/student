@@ -24,7 +24,7 @@ class ClassRequest extends FormRequest
     {
         return [
             'class_name_id' => 'required|integer|exists:class_names,id',
-            'root_id' => 'required',
+            'root_id' => 'required|integer',
         ];
     }
 

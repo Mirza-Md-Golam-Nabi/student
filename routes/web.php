@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClsController;
+use App\Http\Controllers\ExamInfoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentInfoController;
 use App\Http\Controllers\SubjectController;
@@ -36,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('classes', ClsController::class);
     Route::resource('subjects', SubjectController::class);
     Route::resource('students', StudentInfoController::class);
+    Route::resource('examinfos', ExamInfoController::class);
+    Route::get('exam-info-status-update', [ExamInfoController::class, 'statusUpdate'])->name('exam-info-status-update');
 });
 
 require __DIR__ . '/auth.php';

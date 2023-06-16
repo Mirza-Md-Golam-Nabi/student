@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Student\StudentInfoRequest;
-use App\Models\Cls;
+use App\Traits\ClassTrait;
 use App\Models\StudentInfo;
+use App\Http\Requests\Student\StudentInfoRequest;
 
 class StudentInfoController extends Controller
 {
+    use ClassTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -124,12 +126,5 @@ class StudentInfoController extends Controller
     public function destroy(StudentInfo $studentInfo)
     {
         //
-    }
-
-    public function classes()
-    {
-        return Cls::with('className')
-            ->where('root_id', rootId())
-            ->get();
     }
 }

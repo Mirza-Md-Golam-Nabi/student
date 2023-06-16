@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('exam_infos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('root_id');
+            $table->foreign('root_id')->references('id')->on('users');
+            $table->string('name');
+            $table->unsignedBigInteger('subject_id');
+            $table->foreign('subject_id')->references('id')->on('subjects');
+            $table->unsignedBigInteger('class_id');
+            $table->foreign('class_id')->references('id')->on('class_names');
+            $table->text('topic')->nullable();
+            $table->date('exam_date');
+            $table->string('status', 1)->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

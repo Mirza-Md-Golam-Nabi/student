@@ -13,6 +13,7 @@
             <li><a href="{{ route('classes.index') }}">Class</a></li>
             <li><a href="{{ route('subjects.index') }}">Subject</a></li>
             <li><a href="{{ route('students.index') }}">Student</a></li>
+            <li><a href="{{ route('examinfos.index') }}">Exam Info</a></li>
          </ul>
       </li>
       <li>
