@@ -19,8 +19,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'phone',
+        'brand',
         'email',
+        'email_verified_at',
+        'parent_id',
+        'user_type_id',
         'password',
+        'expire_date',
     ];
 
     /**
@@ -42,4 +48,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAllowed()
+    {
+        return in_array($this->user_type_id, [2,3]);
+    }
 }

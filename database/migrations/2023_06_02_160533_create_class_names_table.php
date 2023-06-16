@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('class_names', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('digit');
-            $table->string('title', 50);
+            $table->string('title', 20);
             $table->timestamps();
         });
     }

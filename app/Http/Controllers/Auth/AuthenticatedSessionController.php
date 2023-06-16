@@ -17,7 +17,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        $title = 'login';
+        return view('auth.login', compact(['title']));
     }
 
     /**
@@ -29,7 +30,35 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user_type_id = auth()->user()->user_type_id;
+
+        switch ($user_type_id) {
+            case 1:
+                return redirect()->intended(RouteServiceProvider::SUPER_ADMIN);
+                break;
+
+            case 2:
+                return redirect()->intended(RouteServiceProvider::ADMIN);
+                break;
+
+            case 3:
+                return redirect()->intended(RouteServiceProvider::EDITOR);
+                break;
+
+            case 4:
+                return redirect()->intended(RouteServiceProvider::GUARDIAN);
+                break;
+
+            case 5:
+                return redirect()->intended(RouteServiceProvider::STUDENT);
+                break;
+
+            default:
+                return redirect()->intended(RouteServiceProvider::DEFAULT);
+                break;
+        }
+
+        // return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**

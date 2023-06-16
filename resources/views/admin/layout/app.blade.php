@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Afroza Traders - {{ $title }}</title>
+    <title>{{ auth()->user()->brand ?? ''}} - {{ $title }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @include('admin.includes.style')
@@ -21,17 +21,6 @@
         @include('admin.includes.sidebar')
 
         <div class="content mb-4" id="content" onclick="sidebar()">
-            <div class="d-flex justify-content-around mb-3">
-                <a href="{{ route('admin.stockin.create') }}"
-                    style="border: 1px solid gray; padding:5px 25px;border-radius:10px;">
-                    <div>Stock in</div>
-                </a>
-                <a href="{{ route('admin.stockout.create') }}"
-                    style="border: 1px solid gray; padding:5px 25px;border-radius:10px;">
-                    <div>Stock out</div>
-                </a>
-
-            </div>
             <h4>{{ $title }}</h4>
             @yield('maincontent')
 

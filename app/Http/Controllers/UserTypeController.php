@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClassName;
+use App\Models\UserType;
 use Illuminate\Http\Request;
 
-class ClassNameController extends Controller
+class UserTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class ClassNameController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ClassName $className)
+    public function show(UserType $userType)
     {
         //
     }
@@ -42,7 +42,7 @@ class ClassNameController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ClassName $className)
+    public function edit(UserType $userType)
     {
         //
     }
@@ -50,7 +50,7 @@ class ClassNameController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ClassName $className)
+    public function update(Request $request, UserType $userType)
     {
         //
     }
@@ -58,7 +58,7 @@ class ClassNameController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ClassName $className)
+    public function destroy(UserType $userType)
     {
         //
     }

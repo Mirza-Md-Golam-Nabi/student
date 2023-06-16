@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('root_id');
+            $table->foreign('root_id')->references('id')->on('users');
             $table->string('name');
             $table->timestamps();
         });
