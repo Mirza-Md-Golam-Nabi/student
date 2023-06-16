@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentInfoController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('classes', ClsController::class);
     Route::resource('subjects', SubjectController::class);
+    Route::resource('students', StudentInfoController::class);
 });
 
 require __DIR__ . '/auth.php';

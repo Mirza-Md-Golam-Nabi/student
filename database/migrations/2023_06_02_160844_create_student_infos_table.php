@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('student_infos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('root_id');
+            $table->foreign('root_id')->references('id')->on('users');
             $table->string('name', 191);
-            $table->string('phone', 20);
+            $table->string('phone', 20)->nullable();
             $table->unsignedBigInteger('class_id');
             $table->foreign('class_id')->references('id')->on('class_names');
             $table->string('father_name', 191)->nullable();
             $table->string('mother_name', 191)->nullable();
             $table->string('school_name', 191)->nullable();
             $table->string('guardian_phone', 20)->nullable();
-            $table->string('active', 1)->default(1);
+            $table->string('status', 1)->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

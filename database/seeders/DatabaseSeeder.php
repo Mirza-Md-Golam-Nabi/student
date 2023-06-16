@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Database\Seeders\ClassNameSeeder;
+use Database\Seeders\ClsSeeder;
+use Database\Seeders\StudentInfoSeeder;
 use Database\Seeders\SubjectSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\UserTypeSeeder;
@@ -19,7 +21,9 @@ class DatabaseSeeder extends Seeder
             UserTypeSeeder::class,
             UserSeeder::class,
             ClassNameSeeder::class,
+            ClsSeeder::class,
             SubjectSeeder::class,
+            StudentInfoSeeder::class,
         ]);
     }
 }
