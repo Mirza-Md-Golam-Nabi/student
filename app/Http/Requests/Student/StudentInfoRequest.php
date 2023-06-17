@@ -25,13 +25,22 @@ class StudentInfoRequest extends FormRequest
         return [
             'root_id' => 'required|integer',
             'name' => 'required|string|max:190',
-            'phone' => ['nullable', 'digits:11', new PhoneNumber],
             'class_id' => 'required|exists:cls,class_name_id',
             'father_name' => 'nullable|string|max:190',
             'mother_name' => 'nullable|string|max:190',
             'school_name' => 'nullable|string|max:190',
-            'guardian_phone' => ['nullable', 'digits:11', new PhoneNumber],
             'status' => 'sometimes|integer|in:0,1',
+            'phone' => [
+                'nullable',
+                'digits:11',
+                new PhoneNumber,
+            ],
+            'guardian_phone' => [
+                'nullable',
+                'digits:11',
+                new PhoneNumber,
+                'different:phone',
+            ],
         ];
     }
 

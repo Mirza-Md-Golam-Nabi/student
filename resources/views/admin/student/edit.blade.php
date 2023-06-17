@@ -4,7 +4,21 @@
     <!-- Main Content -->
 
     @include('msg')
-
+    <style>
+        .requiredClass {
+            color: red;
+            font-size: 60%;
+        }
+    </style>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('students.update', $student) }}" method="post" class="mt-3">
         @csrf
         @method('PUT')
@@ -18,7 +32,7 @@
             @enderror
         </div>
         <div class="form-group">
-            <label for="phone">Phone</label>
+            <label for="phone">Student Phone</label>
             <input type="text" name="phone" value="{{ old('phone') ?? $student->phone }}"
                 class="form-control @error('phone') is-invalid @enderror" id="phone" autocomplete="off">
             @error('phone')
@@ -78,12 +92,12 @@
             <label for="status" class="mr-5">Status</label>
             <div class="form-check-inline">
                 <input class="form-check-input" type="radio" name="status" id="statusActive" value="1"
-                    @if ($student->status()) checked @endif>
+                    @if ($student->status) checked @endif>
                 <label class="form-check-label" for="statusActive">Active</label>
             </div>
             <div class="form-check-inline">
                 <input class="form-check-input" type="radio" name="status" id="statusInactive" value="0"
-                    @if (!$student->status()) checked @endif>
+                    @if (!$student->status) checked @endif>
                 <label class="form-check-label" for="statusInactive">Inactive</label>
             </div>
             @error('status')

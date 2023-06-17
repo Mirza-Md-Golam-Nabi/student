@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\ClassTrait;
-use App\Models\StudentInfo;
 use App\Http\Requests\Student\StudentInfoRequest;
+use App\Models\StudentInfo;
+use App\Models\User;
+use App\Traits\ClassTrait;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class StudentInfoController extends Controller
 {
@@ -56,18 +61,70 @@ class StudentInfoController extends Controller
      */
     public function store(StudentInfoRequest $request)
     {
-        $student = StudentInfo::create(
-            $request->validated()
-        );
+        try {
+            DB::beginTransaction();
 
-        if (!$student) {
+            $student = StudentInfo::create(
+                $request->validated()
+            );
+
+            $validationData = [
+                'root_id' => $request->root_id,
+                'phone' => $request->phone,
+                'guardian_phone' => $request->guardian_phone,
+                'student_id' => $student->id,
+            ];
+
+            $validator = Validator::make($validationData, [
+                'phone' => [
+                    'required',
+                    Rule::unique('users')->where(function ($query) use ($validationData) {
+                        return $query->where('parent_id', $validationData['root_id'])
+                            ->where('phone', $validationData['guardian_phone'])
+                            ->where('student_id', $validationData['student_id'])
+                            ->where('status', 1);
+                    }),
+                ],
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            if ($request->phone) {
+                User::create([
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'parent_id' => rootId(),
+                    'student_id' => $student->id,
+                    'user_type_id' => 5,
+                    'password' => Hash::make(12345),
+                ]);
+            }
+
+            if ($request->guardian_phone) {
+                User::create([
+                    'name' => $request->father_name ?? $request->mother_name ?? '',
+                    'phone' => $request->guardian_phone,
+                    'parent_id' => rootId(),
+                    'student_id' => $student->id,
+                    'user_type_id' => 4,
+                    'password' => Hash::make(12345),
+                ]);
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            report($th);
+
+            DB::rollback();
+
             session()->flash('error', 'Do not add a Student Successfully.');
             return redirect()->route('students.create')->withInput();
         }
 
         session()->flash('success', "Add a Student Successfully.");
         return redirect()->route('students.index');
-
     }
 
     /**
@@ -107,10 +164,67 @@ class StudentInfoController extends Controller
      */
     public function update(StudentInfoRequest $request, StudentInfo $student)
     {
-        $student->fill($request->validated());
-        $student->save();
+        $validationData = [
+            'root_id' => $request->root_id,
+            'phone' => $request->phone,
+            'guardian_phone' => $request->guardian_phone,
+            'student_id' => $student->id,
+        ];
 
-        if (!$student->wasChanged()) {
+        $validator = Validator::make($validationData, [
+            'phone' => [
+                'required',
+                Rule::unique('users')->where(function ($query) use ($validationData) {
+                    return $query->where('parent_id', $validationData['root_id'])
+                        ->where('phone', $validationData['guardian_phone'])
+                        ->where('student_id', $validationData['student_id'])
+                        ->where('status', 1);
+                }),
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('students.create')->withErrors($validator)->withInput();
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $student->fill($request->validated());
+            $student->save();
+
+            if ($request->phone) {
+                User::updateOrCreate(
+                    ['phone' => $request->phone],
+                    [
+                        'name' => $request->name,
+                        'parent_id' => rootId(),
+                        'student_id' => $student->id,
+                        'user_type_id' => 5,
+                        'password' => Hash::make(12345),
+                    ]
+                );
+            }
+
+            if ($request->guardian_phone) {
+                User::updateOrCreate(
+                    ['phone' => $request->guardian_phone],
+                    [
+                        'name' => $request->father_name ?? $request->mother_name,
+                        'parent_id' => rootId(),
+                        'student_id' => $student->id,
+                        'user_type_id' => 4,
+                        'password' => Hash::make(12345),
+                    ]
+                );
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            report($th);
+
+            DB::rollback();
+
             session()->flash('error', 'Student does not update Successfully.');
             return redirect()->route('students.edit', $student)->withInput();
         }

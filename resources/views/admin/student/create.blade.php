@@ -10,6 +10,15 @@
             font-size: 60%;
         }
     </style>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('students.store') }}" method="post" class="mt-3">
         @csrf
         <div class="form-group">
@@ -22,7 +31,7 @@
             @enderror
         </div>
         <div class="form-group">
-            <label for="phone">Phone</label>
+            <label for="phone">Student Phone</label>
             <input type="text" name="phone" value="{{ old('phone') }}"
                 class="form-control @error('phone') is-invalid @enderror" id="phone" autocomplete="off">
             @error('phone')

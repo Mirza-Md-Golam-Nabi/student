@@ -13,7 +13,7 @@
             <td>{{ $student->name }}</td>
         </tr>
         <tr>
-            <td>Phone</td>
+            <td>Student Phone</td>
             <td>{{ $student->phone }}</td>
         </tr>
         <tr>
