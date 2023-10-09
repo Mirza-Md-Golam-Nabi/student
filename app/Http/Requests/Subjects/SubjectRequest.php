@@ -23,6 +23,7 @@ class SubjectRequest extends FormRequest
     {
         return [
             'root_id' => 'required|integer',
+            'updated_by' => 'required|integer',
             'name' => 'required|string|max:200',
         ];
     }
@@ -35,9 +36,13 @@ class SubjectRequest extends FormRequest
     protected function prepareForValidation()
     {
         $root_id = rootId();
+        $updated_by = auth()->id();
 
         $this->merge(
-            compact('root_id')
+            compact([
+                'root_id',
+                'updated_by',
+            ])
         );
     }
 }

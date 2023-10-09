@@ -6,6 +6,7 @@ use App\Models\ClassName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ExamInfo extends Model
@@ -13,7 +14,7 @@ class ExamInfo extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'root_id', 'name', 'subject_id', 'class_id', 'total_marks', 'topic', 'exam_date', 'status',
+        'root_id', 'name', 'subject_id', 'class_id', 'total_marks', 'topic', 'exam_date', 'status', 'updated_by',
     ];
 
     public function className(): BelongsTo
@@ -24,5 +25,10 @@ class ExamInfo extends Model
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    public function smsFormat(): HasOne
+    {
+        return $this->hasOne(SmsFormat::class);
     }
 }

@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
                 'email' => 'golamnabi411330@gmail.com',
                 'password' => Hash::make('12345'),
                 'user_type_id' => 1,
+                'updated_by' => 1,
             ]
         );
 
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
                 'email' => 'golamnabi411330@gmail.com',
                 'password' => Hash::make('12345'),
                 'user_type_id' => 2,
+                'updated_by' => 1,
             ]
         );
 

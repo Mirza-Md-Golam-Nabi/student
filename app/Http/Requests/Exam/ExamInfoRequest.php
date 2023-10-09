@@ -43,6 +43,7 @@ class ExamInfoRequest extends FormRequest
             'topic' => 'nullable|string|max:65530',
             'exam_date' => 'required|date_format:Y-m-d',
             'status' => 'sometimes|integer|in:0,1',
+            'updated_by' => 'required|integer',
         ];
     }
 
@@ -54,9 +55,10 @@ class ExamInfoRequest extends FormRequest
     protected function prepareForValidation()
     {
         $root_id = rootId();
+        $updated_by = auth()->id();
 
         $this->merge(
-            compact('root_id')
+            compact('root_id', 'updated_by')
         );
     }
 }

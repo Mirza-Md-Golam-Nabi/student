@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('status', 1)->default(1);
             $table->timestamps();
             $table->softDeletes();
+            $table->unsignedBigInteger('updated_by');
         });
     }
 

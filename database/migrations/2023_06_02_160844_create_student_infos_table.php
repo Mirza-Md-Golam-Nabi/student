@@ -22,10 +22,12 @@ return new class extends Migration
             $table->string('father_name', 191)->nullable();
             $table->string('mother_name', 191)->nullable();
             $table->string('school_name', 191)->nullable();
-            $table->string('guardian_phone', 20)->nullable();
+            $table->string('father_phone', 20)->nullable();
+            $table->string('mother_phone', 20)->nullable();
             $table->string('status', 1)->default(1);
             $table->timestamps();
             $table->softDeletes();
+            $table->unsignedBigInteger('updated_by');
         });
     }
 

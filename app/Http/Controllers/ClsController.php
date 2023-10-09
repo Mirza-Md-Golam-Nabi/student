@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Classes\ClassRequest;
 use App\Models\ClassName;
 use App\Models\Cls;
+use Livewire\Livewire;
 
 class ClsController extends Controller
 {

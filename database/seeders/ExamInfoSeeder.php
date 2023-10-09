@@ -25,6 +25,7 @@ class ExamInfoSeeder extends Seeder
             'topic' => $faker->sentence(10),
             'exam_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
             'status' => 0,
+            'updated_by' => 2,
         ]);
 
         ExamInfo::firstOrCreate([
@@ -36,6 +37,7 @@ class ExamInfoSeeder extends Seeder
             'topic' => $faker->sentence(10),
             'exam_date' => Carbon::now()->addDays(5)->format('Y-m-d'),
             'status' => 1,
+            'updated_by' => 2,
         ]);
 
         ExamInfo::firstOrCreate([
@@ -47,6 +49,7 @@ class ExamInfoSeeder extends Seeder
             'topic' => $faker->sentence(10),
             'exam_date' => Carbon::now()->addDays(5)->format('Y-m-d'),
             'status' => 1,
+            'updated_by' => 2,
         ]);
     }
 }

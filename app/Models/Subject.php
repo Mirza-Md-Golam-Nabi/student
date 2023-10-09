@@ -9,6 +9,6 @@ class Subject extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['root_id', 'name'];
+    protected $fillable = ['root_id', 'name', 'updated_by'];
     protected $hidden = ['created_at', 'updated_at'];
 }

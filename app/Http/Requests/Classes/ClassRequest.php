@@ -23,8 +23,9 @@ class ClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'class_name_id' => 'required|integer|exists:class_names,id',
+            'class_name_id' => 'required|integer|min:5|exists:class_names,id',
             'root_id' => 'required|integer',
+            'updated_by' => 'required|integer',
         ];
     }
 
@@ -36,10 +37,12 @@ class ClassRequest extends FormRequest
     protected function prepareForValidation()
     {
         $root_id = rootId();
+        $updated_by = auth()->id();
 
         $this->merge(
             compact([
                 'root_id',
+                'updated_by',
             ])
         );
     }

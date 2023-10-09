@@ -81,10 +81,18 @@
             @enderror
         </div>
         <div class="form-group">
-            <label for="guardian_phone">Guardian Phone</label>
-            <input type="text" name="guardian_phone" value="{{ old('guardian_phone') ?? $student->guardian_phone }}"
-                class="form-control @error('guardian_phone') is-invalid @enderror" id="guardian_phone" autocomplete="off">
-            @error('guardian_phone')
+            <label for="father_phone">Father Phone</label>
+            <input type="text" name="father_phone" value="{{ old('father_phone') ?? $student->father_phone }}"
+                class="form-control @error('father_phone') is-invalid @enderror" id="father_phone" autocomplete="off">
+            @error('father_phone')
+                <span style="color:red;">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="mother_phone">Mother Phone</label>
+            <input type="text" name="mother_phone" value="{{ old('mother_phone') ?? $student->mother_phone }}"
+                class="form-control @error('mother_phone') is-invalid @enderror" id="mother_phone" autocomplete="off">
+            @error('mother_phone')
                 <span style="color:red;">{{ $message }}</span>
             @enderror
         </div>

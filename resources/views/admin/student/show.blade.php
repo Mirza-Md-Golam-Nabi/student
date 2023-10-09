@@ -29,8 +29,12 @@
             <td>{{ $student->school_name ?? 'N/A' }}</td>
         </tr>
         <tr>
-            <td>Guardian Phone</td>
-            <td>{{ $student->guardian_phone ?? 'N/A' }}</td>
+            <td>Father Phone</td>
+            <td>{{ $student->father_phone ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td>Mother Phone</td>
+            <td>{{ $student->mother_phone ?? 'N/A' }}</td>
         </tr>
         <tr>
             <td>Status</td>

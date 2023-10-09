@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('class_name_id');
             $table->foreign('class_name_id')->references('id')->on('class_names');
             $table->timestamps();
+            $table->unsignedBigInteger('updated_by');
         });
     }
 

@@ -31,11 +31,11 @@
                             <a href="{{ route('examinfos.edit', $examInfo) }}" title="Edit" class="text-primary">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <a href="#" title="Delete" class="text-primary"
-                                onclick="event.preventDefault(); document.getElementById('examinfo-destroy').submit();">
-                                <i class="fas fa-trash"></i>
+                            <a href="#" title="Delete" class="mx-2" style="color: red"
+                                onclick="event.preventDefault(); document.getElementById('examinfo-destroy{{$examInfo->id}}').submit();">
+                                <i class="fas fa-trash-alt"></i>
                             </a>
-                            <form id="examinfo-destroy" action="{{ route('examinfos.destroy', $examInfo) }}" method="POST"
+                            <form id="examinfo-destroy{{$examInfo->id}}" action="{{ route('examinfos.destroy', $examInfo) }}" method="POST"
                                 class="d-none">
                                 @csrf
                                 @method('DELETE')

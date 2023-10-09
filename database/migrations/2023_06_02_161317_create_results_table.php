@@ -15,15 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('root_id');
             $table->foreign('root_id')->references('id')->on('users');
-            $table->unsignedBigInteger('subject_id');
-            $table->foreign('subject_id')->references('id')->on('subjects');
-            $table->unsignedBigInteger('class_id');
-            $table->foreign('class_id')->references('id')->on('class_names');
+            $table->unsignedBigInteger('exam_info_id');
+            $table->foreign('exam_info_id')->references('id')->on('exam_infos');
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('student_infos');
             $table->float('get_marks');
-            $table->float('total_marks');
             $table->timestamps();
+            $table->softDeletes();
+            $table->unsignedBigInteger('updated_by');
         });
     }
 

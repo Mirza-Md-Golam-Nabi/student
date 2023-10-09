@@ -28,6 +28,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->date('expire_date')->nullable();
+            $table->unsignedBigInteger('updated_by');
             $table->unique(['phone', 'parent_id', 'student_id', 'status']);
         });
     }

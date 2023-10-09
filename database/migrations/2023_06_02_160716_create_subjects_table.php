@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('root_id')->references('id')->on('users');
             $table->string('name');
             $table->timestamps();
+            $table->unsignedBigInteger('updated_by');
         });
     }
 

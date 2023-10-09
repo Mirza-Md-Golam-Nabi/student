@@ -35,12 +35,21 @@ class StudentInfoRequest extends FormRequest
                 'digits:11',
                 new PhoneNumber,
             ],
-            'guardian_phone' => [
+            'father_phone' => [
                 'nullable',
                 'digits:11',
                 new PhoneNumber,
                 'different:phone',
+                'different:mother_phone',
             ],
+            'mother_phone' => [
+                'nullable',
+                'digits:11',
+                new PhoneNumber,
+                'different:phone',
+                'different:father_phone',
+            ],
+            'updated_by' => 'required|integer',
         ];
     }
 
@@ -52,9 +61,10 @@ class StudentInfoRequest extends FormRequest
     protected function prepareForValidation()
     {
         $root_id = rootId();
+        $updated_by = auth()->id();
 
         $this->merge(
-            compact('root_id')
+            compact('root_id', 'updated_by')
         );
     }
 }

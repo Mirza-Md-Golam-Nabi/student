@@ -15,11 +15,13 @@ class SubjectSeeder extends Seeder
         Subject::firstOrCreate([
             'root_id' => 2,
             'name' => 'Mathematics',
+            'updated_by' => 2,
         ]);
 
         Subject::firstOrCreate([
             'root_id' => 2,
             'name' => 'Physics',
+            'updated_by' => 2,
         ]);
 
     }

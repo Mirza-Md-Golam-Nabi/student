@@ -10,6 +10,9 @@
             font-size: 60%;
         }
     </style>
+
+    @include('admin.student.include-top')
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -40,14 +43,11 @@
         </div>
         <div class="form-group">
             <label for="class_id">Class <small class="requiredClass">(required)</small></label>
-            @php $old = old('class_id'); @endphp
-            <select name="class_id" id="class_id" class="form-control @error('class_id') is-invalid @enderror" required>
-                <option value="">Please Select One</option>
+            <select name="class_id" id="class_id" class="form-control @error('class_id') is-invalid @enderror" required readonly>
                 @foreach ($classes as $class)
-                    @if ($old == $class->class_name_id)
+                    @if ($class_id == $class->class_name_id)
                         <option value="{{ $class->class_name_id }}" selected>{{ $class->className->title }}</option>
-                    @else
-                        <option value="{{ $class->class_name_id }}">{{ $class->className->title }}</option>
+                        @break
                     @endif
                 @endforeach
             </select>
@@ -80,10 +80,18 @@
             @enderror
         </div>
         <div class="form-group">
-            <label for="guardian_phone">Guardian Phone</label>
-            <input type="text" name="guardian_phone" value="{{ old('guardian_phone') }}"
-                class="form-control @error('guardian_phone') is-invalid @enderror" id="guardian_phone" autocomplete="off">
-            @error('guardian_phone')
+            <label for="father_phone">Father Phone</label>
+            <input type="text" name="father_phone" value="{{ old('father_phone') }}"
+                class="form-control @error('father_phone') is-invalid @enderror" id="father_phone" autocomplete="off">
+            @error('father_phone')
+                <span style="color:red;">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="mother_phone">Mother Phone</label>
+            <input type="text" name="mother_phone" value="{{ old('mother_phone') }}"
+                class="form-control @error('mother_phone') is-invalid @enderror" id="mother_phone" autocomplete="off">
+            @error('mother_phone')
                 <span style="color:red;">{{ $message }}</span>
             @enderror
         </div>

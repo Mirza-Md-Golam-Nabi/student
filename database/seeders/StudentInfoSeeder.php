@@ -25,8 +25,10 @@ class StudentInfoSeeder extends Seeder
                 'father_name' => $faker->name('male'),
                 'mother_name' => $faker->name('female'),
                 'school_name' => $faker->company,
-                'guardian_phone' => '01' . $faker->numberBetween(100000000, 999999999),
+                'father_phone' => '01' . $faker->numberBetween(100000000, 999999999),
+                'mother_phone' => '01' . $faker->numberBetween(100000000, 999999999),
                 'status' => $faker->numberBetween(0, 1),
+                'updated_by' => 2,
             ]);
         }
     }

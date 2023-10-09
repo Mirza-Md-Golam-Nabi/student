@@ -8,7 +8,9 @@
 
             <div style="display: table; height:100%;">
                 <h3 style="display: table-cell; vertical-align: middle;">
-                    <a href="#" class="astyle">{{ auth()->user()->brand ?? '' }}</a>
+                    <a href="{{ route('dashboard') }}" class="astyle">
+                        {{ auth()->user()->brand ?? '' }}
+                    </a>
                 </h3>
             </div>
             <div>

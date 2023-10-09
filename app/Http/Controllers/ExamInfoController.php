@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Exam\ExamInfoRequest;
+use App\Jobs\ProcessSendSms;
+use App\Jobs\ProcessSendSmsTest;
 use App\Models\ExamInfo;
+use App\Models\Result;
+use App\Models\SmsFormat;
 use App\Models\Subject;
 use App\Traits\ClassTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ExamInfoController extends Controller
 {
@@ -144,8 +149,10 @@ class ExamInfoController extends Controller
     {
         $status = $request->status;
         $exam_info_id = $request->examinfoid;
+
         $exam_info = ExamInfo::find($exam_info_id);
         $exam_info->status = $status == 1 ? 0 : 1;
+        $exam_info->updated_by = auth()->id();
         $exam_info->save();
 
         if ($status) {
@@ -159,5 +166,105 @@ class ExamInfoController extends Controller
     {
         return Subject::where('root_id', rootId())
             ->get();
+    }
+
+    public function setExamMsg(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'exam' => 'required|exists:exam_infos,id',
+            'sms_format' => 'required|string|max:199',
+            'set_number' => 'required|string|max:50',
+        ]);
+
+        if ($validator->fails()) {
+            session()->flash('error', $validator->errors()->first());
+            return redirect()->back()->withInput();
+        }
+
+        SmsFormat::updateOrCreate(
+            [
+                'exam_info_id' => $request->exam,
+            ],
+            [
+                'text' => $request->sms_format,
+                'number' => $request->set_number,
+            ]
+        );
+
+        session()->flash('success', 'Successfully, set your SMS format.');
+        return redirect()->route('results.history', ['exam' => $request->exam]);
+    }
+
+    public function sendAllSms(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'exam' => 'required|exists:exam_infos,id',
+        ]);
+
+        if ($validator->fails()) {
+            session()->flash('error', $validator->errors()->first());
+            return redirect()->back();
+        }
+
+        $exam_id = $request->exam;
+        $results = Result::where('exam_info_id', $exam_id)
+            ->where('got_sms', 0)
+            ->get();
+
+        foreach ($results as $result) {
+            ProcessSendSms::dispatch($result);
+        }
+
+        session()->flash('success', 'Your request is processing.');
+        return redirect()->route('results.history', ['exam' => $exam_id]);
+    }
+
+    public function sendSingleSms(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'result_id' => 'required|exists:results,id',
+        ]);
+
+        if ($validator->fails()) {
+            session()->flash('error', $validator->errors()->first());
+            return redirect()->back();
+        }
+
+        $result = Result::where('id', $request->result_id)
+            ->where('got_sms', 0)
+            ->first();
+
+        ProcessSendSms::dispatch($result);
+
+        session()->flash('success', 'Your request is processing.');
+        return redirect()->route('results.history', ['exam' => $result->exam_info_id]);
+    }
+
+    public function sendTestSms(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'exam' => 'required|exists:exam_infos,id',
+        ]);
+
+        if ($validator->fails()) {
+            session()->flash('error', $validator->errors()->first());
+            return redirect()->back();
+        }
+
+        $exam_id = $request->exam;
+        $result = Result::where('exam_info_id', $exam_id)
+            ->first();
+
+        $phone = authUser()->phone;
+        ProcessSendSmsTest::dispatch($result, $phone);
+
+        session()->flash('success', 'Your request is processing.');
+        return redirect()->route('results.history', ['exam' => $result->exam_info_id]);
+    }
+
+    public function updateGotSmsStatus(Result $result)
+    {
+        $result->got_sms = 1;
+        $result->save();
     }
 }

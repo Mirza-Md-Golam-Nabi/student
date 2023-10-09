@@ -12,7 +12,9 @@ class StudentInfo extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['root_id', 'name', 'phone', 'class_id', 'father_name', 'mother_name', 'school_name', 'guardian_phone', 'status'];
+    protected $fillable = [
+        'root_id', 'name', 'phone', 'class_id', 'father_name', 'mother_name', 'school_name', 'father_phone', 'mother_phone', 'status', 'updated_by',
+    ];
 
     public function className(): BelongsTo
     {
