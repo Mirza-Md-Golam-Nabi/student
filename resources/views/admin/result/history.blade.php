@@ -37,7 +37,7 @@
     <div class="mt-3">
         <div>
             <span style="color: red">
-                SMS Format
+                SMS Format - Length(<b>{{ strlen($exam_info->smsFormat->text ?? '') }}</b>)
                 <a href="{{ route('send.test.sms', ['exam' => $exam_info->id]) }}">
                     <button class="btn btn-sm btn-primary">SMS Test</button>
                 </a>
