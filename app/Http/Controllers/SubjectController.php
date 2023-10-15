@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Subjects\SubjectRequest;
 use App\Models\Subject;
-use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
@@ -35,13 +34,7 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        $title = "Subject Create";
-
-        $all_data = compact(
-            'title'
-        );
-
-        return view('admin.subject.create', $all_data);
+        //
     }
 
     /**
@@ -50,7 +43,10 @@ class SubjectController extends Controller
     public function store(SubjectRequest $request)
     {
         $subject = Subject::updateOrCreate(
-            $request->validated(),
+            $request->validated() + [
+                'root_id' => rootId(),
+                'updated_by' => auth()->id(),
+            ],
             []
         );
 
@@ -75,12 +71,7 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        $title = "Subject Edit";
-
-        $all_data = compact('title', 'subject');
-
-        return view('admin.subject.edit', $all_data);
-
+        //
     }
 
     /**
@@ -88,7 +79,11 @@ class SubjectController extends Controller
      */
     public function update(SubjectRequest $request, Subject $subject)
     {
-        $subject->fill($request->validated());
+        $subject->fill($request->validated() + [
+            'root_id' => rootId(),
+            'updated_by' => auth()->id(),
+        ]);
+
         $subject->save();
 
         if (!$subject->wasChanged()) {

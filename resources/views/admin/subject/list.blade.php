@@ -1,6 +1,7 @@
 @extends('admin.layout.app')
 @section('maincontent')
-    @include('admin.includes.createbutton')
+    @include('admin.includes.createmodal')
+    @include('validationError')
     @include('msg')
     <div class="clearfix">
         <table class="table table-striped" id="table_id">
@@ -17,13 +18,17 @@
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $subject->name }}</td>
                         <td style="text-align: center;">
-                            <a href="{{ route('subjects.edit', $subject) }}" class="text-primary">Edit</a>
+                            <span style="cursor: pointer;" class="text-primary" data-toggle="modal"
+                                data-target="#editModal{{ $subject->id }}">Edit</span>
+                            @include('admin.subject.edit')
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    @include('admin.subject.create')
 @endsection
 
 @section('extrascript')

@@ -7,6 +7,13 @@ use Illuminate\Foundation\Http\FormRequest;
 class SubjectRequest extends FormRequest
 {
     /**
+     * The key to be used for the view error bag.
+     *
+     * @var string
+     */
+    protected $errorBag = 'default';
+
+    /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
@@ -22,27 +29,20 @@ class SubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'root_id' => 'required|integer',
-            'updated_by' => 'required|integer',
             'name' => 'required|string|max:200',
         ];
     }
 
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
+    protected function getValidatorInstance()
     {
-        $root_id = rootId();
-        $updated_by = auth()->id();
+        $validator = parent::getValidatorInstance();
 
-        $this->merge(
-            compact([
-                'root_id',
-                'updated_by',
-            ])
-        );
+        if ($this->method() == 'POST') {
+            $this->errorBag = 'store';
+        } elseif ($this->method() == 'PUT') {
+            $this->errorBag = 'update';
+        }
+
+        return $validator;
     }
 }
