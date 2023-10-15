@@ -6,6 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ClassRequest extends FormRequest
 {
+    /**
+     * The key to be used for the view error bag.
+     *
+     * @var string
+     */
     protected $errorBag = 'default';
 
     /**
