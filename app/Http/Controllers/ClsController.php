@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Classes\ClassRequest;
-use App\Models\ClassName;
 use App\Models\Cls;
+use App\Traits\ClassTrait;
 
 class ClsController extends Controller
 {
+    use ClassTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -105,10 +107,5 @@ class ClsController extends Controller
     public function destroy(Cls $cls)
     {
         //
-    }
-
-    private function classList()
-    {
-        return ClassName::orderBy('id', 'asc')->get();
     }
 }
