@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ClassRequest extends FormRequest
 {
+    protected $errorBag = 'default';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -23,27 +24,20 @@ class ClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'class_name_id' => 'required|integer|min:5|exists:class_names,id',
-            'root_id' => 'required|integer',
-            'updated_by' => 'required|integer',
+            'class_name_id' => 'required|exists:class_names,id',
         ];
     }
 
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
+    protected function getValidatorInstance()
     {
-        $root_id = rootId();
-        $updated_by = auth()->id();
+        $validator = parent::getValidatorInstance();
 
-        $this->merge(
-            compact([
-                'root_id',
-                'updated_by',
-            ])
-        );
+        if ($this->method() == 'POST') {
+            $this->errorBag = 'store';
+        } elseif ($this->method() == 'PUT') {
+            $this->errorBag = 'update';
+        }
+
+        return $validator;
     }
 }
